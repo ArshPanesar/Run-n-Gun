@@ -12,6 +12,7 @@ public class PlayerBehaviour : MonoBehaviour
     // Components
     private BoxCollider2D boxCollider;
     private Rigidbody2D rigidBody;
+    private BulletSpawner bulletSpawner;
 
     // Input
     private bool moveLeft = false;
@@ -37,12 +38,22 @@ public class PlayerBehaviour : MonoBehaviour
         return false;
     }
 
+    void Shoot()
+    {
+        BulletPreset bulletPreset = BulletPresetContainer.Get("DefaultBullet");
+
+        bulletSpawner.spawnTransform = transform;
+        bulletSpawner.lineOfShot = Vector2.right;
+        bulletSpawner.Spawn(bulletPreset, LayerMask.NameToLayer("PlayerBullet"));
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         // Set Up Components
         boxCollider = GetComponent<BoxCollider2D>();
         rigidBody = GetComponent<Rigidbody2D>();
+        bulletSpawner = GetComponent<BulletSpawner>();
 
         distToFloor = boxCollider.bounds.extents.y + (boxCollider.bounds.extents.y * 0.1f);
     }
@@ -104,6 +115,12 @@ public class PlayerBehaviour : MonoBehaviour
         moveLeft = Input.GetKey(KeyCode.A);
         moveRight = Input.GetKey(KeyCode.D);
         shouldJump = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space);
+
+        bool shoot = Input.GetKey(KeyCode.Return);
+        if (shoot)
+        {
+            Shoot();
+        }
     }
 
     // Increase Score

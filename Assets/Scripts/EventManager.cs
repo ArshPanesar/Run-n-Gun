@@ -6,6 +6,7 @@ using UnityEngine;
 public static class GameEvents
 {
     public static string CollectCoins = "Collect Coins";
+    public static string DestroyBullet = "Destroy Bullet";
 };
 
 public class EventManager

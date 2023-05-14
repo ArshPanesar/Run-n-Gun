@@ -12,9 +12,9 @@ TagManager:
   - Floor
   - Water
   - UI
-  - 
-  - 
-  - 
+  - PlayerBullet
+  - EnemyBullet
+  - Coin
   - 
   - 
   - 
