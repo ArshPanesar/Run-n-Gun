@@ -45,16 +45,12 @@ public class BulletBehaviour : MonoBehaviour
         transform.position = new Vector2(transform.position.x, transform.position.y) + (direction * speed) * Time.fixedDeltaTime;
     }
 
-    void Update()
+    private void OnBecameInvisible()
     {
-        // Check if Out of Screen
-        if (!spriteRenderer.isVisible)
-        {
-            EventManager.GetInstance().TriggerEvent(GameEvents.DestroyBullet, new Dictionary<string, object>
+        EventManager.GetInstance().TriggerEvent(GameEvents.DestroyBullet, new Dictionary<string, object>
             {
                 { "bullet", gameObject },
                 { "damage", damage }
             });
-        }
     }
 }

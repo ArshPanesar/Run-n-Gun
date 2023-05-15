@@ -5,7 +5,7 @@ using UnityEngine;
 public class BulletSpawner : MonoBehaviour
 {
     public GameObject bulletPrefab;
-    public Transform spawnTransform;
+    public Vector2 spawnPosition;
     public Vector2 lineOfShot;
 
     private bool canShoot = true;
@@ -20,12 +20,13 @@ public class BulletSpawner : MonoBehaviour
         }
 
         List<GameObject> gameObjects = new List<GameObject>(preset.numOfBulletsPerSpawn);
-        
+
         // Spawn with Position Offsets
+        Vector2 globalPosition = new Vector2(transform.position.x, transform.position.y);
         for (int i = 0; i < preset.numOfBulletsPerSpawn; i++)
         {
-            Vector2 position = new Vector2(spawnTransform.position.x, spawnTransform.position.y) + preset.spawnPointOffsets[i];
-            gameObjects.Add(Instantiate(bulletPrefab, position, Quaternion.identity));
+            Vector2 position = new Vector2(spawnPosition.x, spawnPosition.y) + preset.spawnPointOffsets[i];
+            gameObjects.Add(Instantiate(bulletPrefab, globalPosition + position, Quaternion.identity));
         }
 
         // Set Bullet

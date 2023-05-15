@@ -57,7 +57,10 @@ public class EventManager
         Action<Dictionary<string, object>> newEvent;
         if (eventDictionary.TryGetValue(name, out newEvent))
         {
-            newEvent.Invoke(args);
+            if (newEvent.GetInvocationList().Length > 0)
+            {
+                newEvent.Invoke(args);
+            }
         }
     }
 }

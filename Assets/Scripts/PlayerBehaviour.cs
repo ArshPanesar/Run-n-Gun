@@ -42,7 +42,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         BulletPreset bulletPreset = BulletPresetContainer.Get("DefaultBullet");
 
-        bulletSpawner.spawnTransform = transform;
+        bulletSpawner.spawnPosition = new Vector2(boxCollider.bounds.extents.x, 0f);
         bulletSpawner.lineOfShot = Vector2.right;
         bulletSpawner.Spawn(bulletPreset, LayerMask.NameToLayer("PlayerBullet"));
     }
@@ -76,15 +76,18 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (moveLeft)
         {
-            moveVelocity.x = -speed;
+            rigidBody.AddForce(new Vector2(-speed, 0f), ForceMode2D.Impulse);
+            //moveVelocity.x += -speed * Time.deltaTime;
         }
         else if (moveRight)
         {
-            moveVelocity.x = speed;
+            rigidBody.AddForce(new Vector2(speed, 0f), ForceMode2D.Impulse);
+            //moveVelocity.x += speed * Time.deltaTime;
         }
         else
         {
-            moveVelocity.x = 0f;
+            rigidBody.velocity = new Vector2(0f, rigidBody.velocity.y);
+            //moveVelocity.x = 0f;
         }
         
         if (!alreadyJumping && shouldJump && IsOnFloor())
@@ -94,7 +97,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
         else if (alreadyJumping)
         {
-            rigidBody.AddForce(new Vector2(0f, jumpForce));
+            rigidBody.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
 
             countFrames++;
             if (countFrames > ignoreJumpFrames - 1)
@@ -103,10 +106,12 @@ public class PlayerBehaviour : MonoBehaviour
                 countFrames = 0;
             }
         }
-        moveVelocity.y = rigidBody.velocity.y;
+        //moveVelocity.x = Mathf.Clamp(moveVelocity.x, -speed, speed);
+        //moveVelocity.y = rigidBody.velocity.y;
+
 
         // Apply Velocity
-        rigidBody.velocity = moveVelocity;
+        rigidBody.velocity = new Vector2(Mathf.Clamp(rigidBody.velocity.x, -speed, speed), rigidBody.velocity.y);
     }
 
     // Update is called once per frame

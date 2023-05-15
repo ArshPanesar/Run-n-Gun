@@ -14,14 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationController: {fileID: 9100000, guid: 9f86f367e7933294f87ca5aa77e6599d, type: 2}
   damage: 5
-  speed: 3
-  numOfBulletsPerSpawn: 3
+  speed: 8
+  numOfBulletsPerSpawn: 1
   cooldownTime: 0.25
   spawnPointOffsets:
-  - {x: 0.134, y: 0.005}
-  - {x: 0.134, y: -0.005}
-  - {x: 0.14, y: 0}
+  - {x: 0, y: 0}
   angleOffsets:
-  - 14.046
-  - -14.046
   - 0
