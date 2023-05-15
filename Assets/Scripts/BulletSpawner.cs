@@ -77,6 +77,6 @@ public class BulletSpawner : MonoBehaviour
     {
         GameObject bullet = (GameObject)args["bullet"];
         
-        Destroy(bullet, 0.1f);
+        Destroy(bullet);
     }
 }

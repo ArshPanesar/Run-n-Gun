@@ -8,6 +8,7 @@ public static class GameEvents
     public static string CollectCoins = "Collect Coins";
     public static string DestroyBullet = "Destroy Bullet";
     public static string PlayerDead = "Player Dead";
+    public static string UpdateHealth = "Update Health";
 };
 
 public class EventManager

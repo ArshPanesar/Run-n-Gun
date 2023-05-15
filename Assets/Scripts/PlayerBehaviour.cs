@@ -12,7 +12,8 @@ public class PlayerBehaviour : MonoBehaviour
     public BulletPreset dBulletPreset;
 
     // Health
-    int health = 100;
+    public int health = 100;
+    public int healthPickupValue = 50;
 
     // Movement
     public float speed = 1f;
@@ -83,16 +84,23 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (health <= 0)
         {
+            health = 0;
+
             // Correct Death Position
             boxCollider.enabled = false;
             rigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
-            transform.position += new Vector3(0f, -0.75f);
+            transform.position += new Vector3(0f, -0.40f);
+
+            EventManager.GetInstance().TriggerEvent(GameEvents.PlayerDead, null);
 
             // Animate Death
             animator.SetBool("IsDead", true);
-
-            EventManager.GetInstance().TriggerEvent(GameEvents.PlayerDead, null);
         }
+
+        EventManager.GetInstance().TriggerEvent(GameEvents.UpdateHealth, new Dictionary<string, object>
+        {
+            { "health", health }
+        });
     }
 
     void Start()
@@ -105,6 +113,11 @@ public class PlayerBehaviour : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         distToFloor = boxCollider.bounds.extents.y + (boxCollider.bounds.extents.y * 0.1f);
+
+        EventManager.GetInstance().TriggerEvent(GameEvents.UpdateHealth, new Dictionary<string, object>
+        {
+            { "health", health }
+        });
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -123,6 +136,16 @@ public class PlayerBehaviour : MonoBehaviour
         {
             BulletBehaviour bulletBehaviour = collision.gameObject.GetComponent<BulletBehaviour>();
             TakeDamage(bulletBehaviour.damage);
+        }
+        else if (collision.gameObject.tag == "HealthPickup")
+        {
+            Destroy(collision.gameObject);
+
+            health += healthPickupValue;
+
+            EventManager.GetInstance().TriggerEvent(GameEvents.UpdateHealth, new Dictionary<string, object>{
+                { "health", health }
+            });
         }
     }
 
