@@ -9,7 +9,8 @@ public class BulletBehaviour : MonoBehaviour
 
     private float speed;
     private Vector2 direction;
-    private int damage;
+    
+    public int damage;
 
     public void SetBullet(float newSpeed, Vector2 newDirection, int newDamage, RuntimeAnimatorController animController)
     {
@@ -22,6 +23,23 @@ public class BulletBehaviour : MonoBehaviour
             animator = GetComponent<Animator>();
         }
         animator.runtimeAnimatorController = animController;
+        
+        // Flip Sprite according to Direction
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+        
+        float angleWithLeft = Vector2.Angle(direction, Vector2.left);
+        float angleWithRight = Vector2.Angle(direction, Vector2.right);
+        if (angleWithLeft < angleWithRight)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else
+        {
+            spriteRenderer.flipX = false;
+        }
     }
 
     void Start()
@@ -34,8 +52,7 @@ public class BulletBehaviour : MonoBehaviour
     {
         EventManager.GetInstance().TriggerEvent(GameEvents.DestroyBullet, new Dictionary<string, object>
             {
-                { "bullet", gameObject },
-                { "damage", damage }
+                { "bullet", gameObject }
             });
     }
 
@@ -49,8 +66,7 @@ public class BulletBehaviour : MonoBehaviour
     {
         EventManager.GetInstance().TriggerEvent(GameEvents.DestroyBullet, new Dictionary<string, object>
             {
-                { "bullet", gameObject },
-                { "damage", damage }
+                { "bullet", gameObject }
             });
     }
 }

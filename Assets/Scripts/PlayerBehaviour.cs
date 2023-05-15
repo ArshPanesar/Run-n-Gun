@@ -5,6 +5,16 @@ using UnityEngine.Events;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    // Debug Options
+    //
+    // Player can't die
+    public bool dGodMode = false;
+    public BulletPreset dBulletPreset;
+
+    // Health
+    int health = 100;
+
+    // Movement
     public float speed = 1f;
     public float jumpForce = 4f;
     public int ignoreJumpFrames = 4;
@@ -13,17 +23,18 @@ public class PlayerBehaviour : MonoBehaviour
     private BoxCollider2D boxCollider;
     private Rigidbody2D rigidBody;
     private BulletSpawner bulletSpawner;
+    private Animator animator;
+    private SpriteRenderer spriteRenderer;
 
     // Input
     private bool moveLeft = false;
     private bool moveRight = false;
     private bool alreadyJumping = false;
     private bool shouldJump = false;
+    private bool canShoot = false;
 
-    // Movement
+    // Jumping
     private int countFrames = 0;
-    private Vector2 moveVelocity = new Vector2();
-
     private float distToFloor = 0f;
 
     // Score
@@ -34,26 +45,64 @@ public class PlayerBehaviour : MonoBehaviour
     {
         RaycastHit2D raycastResult = Physics2D.Raycast(transform.position, -Vector2.up, distToFloor, LayerMask.GetMask("Floor"));
         if (raycastResult.collider != null)
+        {
             return true;
+        }
         return false;
     }
 
     void Shoot()
     {
         BulletPreset bulletPreset = BulletPresetContainer.Get("DefaultBullet");
+        if (dBulletPreset != null)
+        {
+            bulletPreset = dBulletPreset;
+        }
 
-        bulletSpawner.spawnPosition = new Vector2(boxCollider.bounds.extents.x, 0f);
+        Vector2 spawnPoint = new Vector2(0.81f, 0.32f);
+        bulletSpawner.spawnPosition = spawnPoint;
         bulletSpawner.lineOfShot = Vector2.right;
+        if (spriteRenderer.flipX)
+        {
+            spawnPoint.x = -spawnPoint.x;
+            bulletSpawner.spawnPosition = spawnPoint;
+            bulletSpawner.lineOfShot = Vector2.left;
+        }
+
         bulletSpawner.Spawn(bulletPreset, LayerMask.NameToLayer("PlayerBullet"));
     }
 
-    // Start is called before the first frame update
+    void TakeDamage(int damage)
+    {
+        if (dGodMode)
+        {
+            return;
+        }
+
+        health -= damage;
+
+        if (health <= 0)
+        {
+            // Correct Death Position
+            boxCollider.enabled = false;
+            rigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
+            transform.position += new Vector3(0f, -0.75f);
+
+            // Animate Death
+            animator.SetBool("IsDead", true);
+
+            EventManager.GetInstance().TriggerEvent(GameEvents.PlayerDead, null);
+        }
+    }
+
     void Start()
     {
         // Set Up Components
         boxCollider = GetComponent<BoxCollider2D>();
         rigidBody = GetComponent<Rigidbody2D>();
         bulletSpawner = GetComponent<BulletSpawner>();
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         distToFloor = boxCollider.bounds.extents.y + (boxCollider.bounds.extents.y * 0.1f);
     }
@@ -70,27 +119,45 @@ public class PlayerBehaviour : MonoBehaviour
                 { "score", score }
             });
         }
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("EnemyBullet"))
+        {
+            BulletBehaviour bulletBehaviour = collision.gameObject.GetComponent<BulletBehaviour>();
+            TakeDamage(bulletBehaviour.damage);
+        }
     }
 
     void FixedUpdate()
     {
         if (moveLeft)
         {
+            // Physics
             rigidBody.AddForce(new Vector2(-speed, 0f), ForceMode2D.Impulse);
-            //moveVelocity.x += -speed * Time.deltaTime;
+
+            // Graphics
+            spriteRenderer.flipX = true;
+            animator.SetBool("IsMoving", true);
         }
         else if (moveRight)
         {
+            // Physics
             rigidBody.AddForce(new Vector2(speed, 0f), ForceMode2D.Impulse);
-            //moveVelocity.x += speed * Time.deltaTime;
+
+            // Graphics
+            spriteRenderer.flipX = false;
+            animator.SetBool("IsMoving", true);
         }
         else
         {
+            // Physics
             rigidBody.velocity = new Vector2(0f, rigidBody.velocity.y);
-            //moveVelocity.x = 0f;
+
+            // Graphics
+            animator.SetBool("IsMoving", false);
         }
-        
-        if (!alreadyJumping && shouldJump && IsOnFloor())
+
+        // Jumping: Physics
+        bool isOnFloor = IsOnFloor();
+        if (!alreadyJumping && shouldJump && isOnFloor)
         {
             shouldJump = false;
             alreadyJumping = true;
@@ -106,26 +173,31 @@ public class PlayerBehaviour : MonoBehaviour
                 countFrames = 0;
             }
         }
-        //moveVelocity.x = Mathf.Clamp(moveVelocity.x, -speed, speed);
-        //moveVelocity.y = rigidBody.velocity.y;
 
+        // Jumping: Graphics
+        animator.SetBool("IsJumping", !isOnFloor);
 
         // Apply Velocity
         rigidBody.velocity = new Vector2(Mathf.Clamp(rigidBody.velocity.x, -speed, speed), rigidBody.velocity.y);
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (health <= 0)
+        {
+            return;
+        }
+
         moveLeft = Input.GetKey(KeyCode.A);
         moveRight = Input.GetKey(KeyCode.D);
         shouldJump = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space);
-
-        bool shoot = Input.GetKey(KeyCode.Return);
-        if (shoot)
+        canShoot = Input.GetKey(KeyCode.Return);
+        
+        if (canShoot)
         {
             Shoot();
         }
+        animator.SetBool("IsShooting", canShoot);
     }
 
     // Increase Score

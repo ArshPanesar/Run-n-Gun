@@ -1,13 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class EnemyBehaviour : MonoBehaviour
 {
+    // Health
+    public int health = 100;
+    public float waitBeforeDestroyTime = 0.5f;
+    private float destroyTimer = 0.0f;
     // Shooting
     public BulletPreset bulletPreset;
+    private Vector2 spawnPoint = Vector2.zero;
     private Vector2 lineOfShot = Vector2.left;
 
+    public Vector2 bulletSpawnOffset;
+    public Vector2 bulletUpSpawnOffset;
+    
     public float activeShootTime = 0.9f;
     public float waitShootTime = 0.5f;
     private float shootTimer = 0.0f;
@@ -19,7 +28,6 @@ public class EnemyBehaviour : MonoBehaviour
     };
     private State state = State.ACTIVE;
 
-
     public float maxAngleWithLeftShot = 60f;
     public float maxAngleWithUpShot = 30f;
     public float maxAngleWithRightShot = 60f;
@@ -27,7 +35,9 @@ public class EnemyBehaviour : MonoBehaviour
     // Components
     private VisibilityNotifierTarget visibilityNotifierTarget;
     private BulletSpawner bulletSpawner;
-
+    private Animator animator;
+    private SpriteRenderer spriteRenderer;
+    
     // Player Location
     private GameObject playerObject = null;
     private bool isPlayerVisible = false;
@@ -38,19 +48,74 @@ public class EnemyBehaviour : MonoBehaviour
         isPlayerVisible = true;
     }
 
+    private void PlayerInvisible(Dictionary<string, object> args)
+    {
+        isPlayerVisible = false;
+
+        animator.SetBool("PlayerDead", true);
+    }
+
+    private void TakeDamage(int damage)
+    {
+        health -= damage;
+
+        if (health <= 0)
+        {
+            // Remove Collision
+            GetComponent<BoxCollider2D>().enabled = false;
+
+            Rigidbody2D rigidBody = GetComponent<Rigidbody2D>();
+            rigidBody.gravityScale = 0f;
+            rigidBody.MovePosition(transform.position + new Vector3(0f, -0.20f));
+            
+            // Animate Death
+            animator.SetBool("IsDead", true);
+        }
+    }
+
     private void Start()
     {
         visibilityNotifierTarget = GetComponent<VisibilityNotifierTarget>();
         bulletSpawner = GetComponent<BulletSpawner>();
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         // Set Delegate Handle
-        visibilityNotifierTarget.delegateHandle += PlayerVisible; 
+        visibilityNotifierTarget.delegateHandle += PlayerVisible;
+
+        EventManager.GetInstance().AddListener(GameEvents.PlayerDead, PlayerInvisible);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.GetInstance().RemoveListener(GameEvents.PlayerDead, PlayerInvisible);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        GameObject otherObject = collision.gameObject;
+        if (otherObject.layer == LayerMask.NameToLayer("PlayerBullet"))
+        {
+            BulletBehaviour bulletBehaviour = otherObject.GetComponent<BulletBehaviour>();
+            TakeDamage(bulletBehaviour.damage);
+        }
     }
 
     private void Update()
     {
         if (!isPlayerVisible)
         {
+            return;
+        }
+        // Wait Before Destroying
+        if (health <= 0)
+        {
+            destroyTimer += Time.deltaTime;
+            if (destroyTimer > waitBeforeDestroyTime)
+            {
+                Destroy(gameObject);
+            }
+
             return;
         }
 
@@ -62,27 +127,45 @@ public class EnemyBehaviour : MonoBehaviour
             case State.ACTIVE:
                 {
                     // Shoot
-                    bulletSpawner.spawnPosition = Vector2.zero;
+                    bulletSpawner.spawnPosition = spawnPoint;
                     bulletSpawner.lineOfShot = lineOfShot;
                     bulletSpawner.Spawn(bulletPreset, LayerMask.NameToLayer("EnemyBullet"));
 
                     // Check State
-                    if (shootTimer > activeShootTime)
+                    bool switchState = shootTimer > activeShootTime;
+                    if (switchState)
                     {
                         state = State.WAITING;
                         shootTimer = 0.0f;
                     }
+
+                    // Animation
+                    string conditionName = "IsShooting";
+                    if (lineOfShot == Vector2.up)
+                    {
+                        conditionName = "IsShootingUp";
+                    }
+                    animator.SetBool(conditionName, !switchState);
                 }
                 break;
 
             case State.WAITING:
                 {
                     // Check State
-                    if (shootTimer > waitShootTime)
+                    bool switchState = shootTimer > waitShootTime;
+                    if (switchState)
                     {
                         state = State.COMPUTING;
                         shootTimer = 0.0f;
                     }
+
+                    // Animation
+                    string conditionName = "IsWaiting";
+                    if (lineOfShot == Vector2.up)
+                    {
+                        conditionName = "IsWaitingUp";
+                    }
+                    animator.SetBool(conditionName, !switchState);
                 }
                 break;
 
@@ -98,15 +181,24 @@ public class EnemyBehaviour : MonoBehaviour
                     if (angleWithLeft < maxAngleWithLeftShot)
                     {
                         lineOfShot = Vector2.left;
-                    }
-                    else if (angleWithUp < maxAngleWithUpShot)
-                    {
-                        lineOfShot = Vector2.up;
+
+                        spawnPoint = new Vector2(-bulletSpawnOffset.x, bulletSpawnOffset.y);
                     }
                     else if (angleWithRight < maxAngleWithRightShot)
                     {
                         lineOfShot = Vector2.right;
+
+                        spawnPoint = bulletSpawnOffset;
                     }
+                    else if (angleWithUp < maxAngleWithUpShot)
+                    {
+                        lineOfShot = Vector2.up;
+
+                        spawnPoint = bulletUpSpawnOffset;
+                    }
+
+                    // Flip Sprite
+                    spriteRenderer.flipX = (lineOfShot == Vector2.left);
 
                     // Change State
                     state = State.ACTIVE;

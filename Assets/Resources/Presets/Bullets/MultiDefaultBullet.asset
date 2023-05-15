@@ -10,14 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 34b3ead05c04e4b488dd4509cf6d49b1, type: 3}
-  m_Name: DefaultBullet
+  m_Name: MultiDefaultBullet
   m_EditorClassIdentifier: 
   animationController: {fileID: 9100000, guid: 9f86f367e7933294f87ca5aa77e6599d, type: 2}
-  damage: 7
+  damage: 5
   speed: 13
-  numOfBulletsPerSpawn: 1
-  cooldownTime: 0.3
+  numOfBulletsPerSpawn: 2
+  cooldownTime: 0.25
   spawnPointOffsets:
-  - {x: 0, y: 0}
+  - {x: 0, y: 0.3}
+  - {x: 0, y: -0.3}
   angleOffsets:
+  - 0
   - 0

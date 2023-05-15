@@ -5,8 +5,8 @@ using UnityEngine;
 public class BulletSpawner : MonoBehaviour
 {
     public GameObject bulletPrefab;
-    public Vector2 spawnPosition;
-    public Vector2 lineOfShot;
+    [HideInInspector] public Vector2 spawnPosition;
+    [HideInInspector] public Vector2 lineOfShot;
 
     private bool canShoot = true;
     private float cooldownTimer = 0f;
@@ -35,7 +35,11 @@ public class BulletSpawner : MonoBehaviour
             gameObjects[i].layer = layerMask;
 
             BulletBehaviour bullet = gameObjects[i].GetComponent<BulletBehaviour>();
-            Vector2 direction = Quaternion.Euler(0f, 0f, preset.angleOffsets[i]) * lineOfShot;
+
+            Quaternion angle = Quaternion.Euler(0f, 0f, preset.angleOffsets[i]);
+            bullet.transform.rotation = angle;
+
+            Vector2 direction = angle * lineOfShot;
 
             bullet.SetBullet(preset.speed, direction, preset.damage, preset.animationController);
         }

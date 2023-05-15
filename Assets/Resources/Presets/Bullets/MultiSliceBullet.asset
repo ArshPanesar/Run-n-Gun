@@ -10,14 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 34b3ead05c04e4b488dd4509cf6d49b1, type: 3}
-  m_Name: DefaultBullet
+  m_Name: MultiSliceBullet
   m_EditorClassIdentifier: 
-  animationController: {fileID: 9100000, guid: 9f86f367e7933294f87ca5aa77e6599d, type: 2}
-  damage: 7
-  speed: 13
-  numOfBulletsPerSpawn: 1
-  cooldownTime: 0.3
+  animationController: {fileID: 9100000, guid: e8bb400714c93594791612f0ae568d43, type: 2}
+  damage: 12
+  speed: 16
+  numOfBulletsPerSpawn: 5
+  cooldownTime: 0.2
   spawnPointOffsets:
+  - {x: 0, y: 0.3}
+  - {x: 0, y: 0.2}
   - {x: 0, y: 0}
+  - {x: 0, y: -0.2}
+  - {x: 0, y: -0.3}
   angleOffsets:
+  - 20
+  - 10
   - 0
+  - -10
+  - -20
