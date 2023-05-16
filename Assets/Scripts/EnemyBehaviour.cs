@@ -9,6 +9,7 @@ public class EnemyBehaviour : MonoBehaviour
     public int health = 100;
     public float waitBeforeDestroyTime = 0.5f;
     private float destroyTimer = 0.0f;
+
     // Shooting
     public BulletPreset bulletPreset;
     private Vector2 spawnPoint = Vector2.zero;
@@ -16,17 +17,19 @@ public class EnemyBehaviour : MonoBehaviour
 
     public Vector2 bulletSpawnOffset;
     public Vector2 bulletUpSpawnOffset;
-    
+
+    public float initTime = 0.0f;
     public float activeShootTime = 0.9f;
     public float waitShootTime = 0.5f;
     private float shootTimer = 0.0f;
     enum State
     {
-        ACTIVE = 0,
+        INIT = 0,
+        ACTIVE,
         WAITING,
         COMPUTING // To Compute Line of Shot
     };
-    private State state = State.ACTIVE;
+    private State state = State.INIT;
 
     public float maxAngleWithLeftShot = 60f;
     public float maxAngleWithUpShot = 30f;
@@ -37,21 +40,20 @@ public class EnemyBehaviour : MonoBehaviour
     private BulletSpawner bulletSpawner;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
-    
+
     // Player Location
     private GameObject playerObject = null;
     private bool isPlayerVisible = false;
 
-    private void PlayerVisible()
+    private void PlayerVisible(GameObject sourceObject)
     {
-        playerObject = visibilityNotifierTarget.sourceObject;
+        playerObject = sourceObject;
         isPlayerVisible = true;
     }
 
     private void PlayerInvisible(Dictionary<string, object> args)
     {
         isPlayerVisible = false;
-
         animator.SetBool("PlayerDead", true);
     }
 
@@ -80,8 +82,14 @@ public class EnemyBehaviour : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        // Set Delegate Handle
         visibilityNotifierTarget.delegateHandle += PlayerVisible;
+
+        // Check if in Group
+        EnemyGroupBehaviour parentGroup = gameObject.GetComponentInParent<EnemyGroupBehaviour>();
+        if (parentGroup != null)
+        {
+            parentGroup.SubscribeToNotification(PlayerVisible);
+        }
 
         EventManager.GetInstance().AddListener(GameEvents.PlayerDead, PlayerInvisible);
     }
@@ -124,6 +132,16 @@ public class EnemyBehaviour : MonoBehaviour
         // Do as per the current state
         switch (state)
         {
+            case State.INIT:
+                {
+                    if (shootTimer > initTime) 
+                    {
+                        state = State.COMPUTING;
+                        shootTimer = 0.0f;
+                    }
+                }
+                break;
+
             case State.ACTIVE:
                 {
                     // Shoot

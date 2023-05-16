@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MultiEnergyBullet
   m_EditorClassIdentifier: 
   animationController: {fileID: 9100000, guid: b99cba18e9a7dcf4c8f4ba374af6fb58, type: 2}
-  damage: 8
+  damage: 11
   speed: 16
   numOfBulletsPerSpawn: 3
   cooldownTime: 0.2

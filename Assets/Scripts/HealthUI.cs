@@ -24,6 +24,18 @@ public class HealthUI : MonoBehaviour
     {
         int health = (int)args["health"];
 
-        text.text = health.ToString();
+        if (health > 0)
+        {
+            text.text = health.ToString();
+        }
+        else
+        {
+            // Death Message
+            text.text = "DEAD";
+            //transform.position -= new Vector3(5.0f, 0.0f);
+
+            // Remove UI
+            GetComponentInChildren<Image>().enabled = false;
+        }
     }
 }

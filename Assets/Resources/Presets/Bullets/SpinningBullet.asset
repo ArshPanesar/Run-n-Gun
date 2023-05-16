@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: SpinningBullet
   m_EditorClassIdentifier: 
   animationController: {fileID: 9100000, guid: 72a3cf397c0d6ad4585d1bc27122a063, type: 2}
-  damage: 1
-  speed: 10
+  damage: 18
+  speed: 9
   numOfBulletsPerSpawn: 1
-  cooldownTime: 0.3
+  cooldownTime: 0.2
   spawnPointOffsets:
   - {x: 0, y: 0}
   angleOffsets:

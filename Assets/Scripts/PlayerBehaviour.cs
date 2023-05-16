@@ -14,6 +14,7 @@ public class PlayerBehaviour : MonoBehaviour
     // Health
     public int health = 100;
     public int healthPickupValue = 50;
+    public float fallDeathHeight = -5;
 
     // Movement
     public float speed = 1f;
@@ -35,8 +36,10 @@ public class PlayerBehaviour : MonoBehaviour
     private bool canShoot = false;
 
     // Jumping
+    public Transform floorDetectorTransform;
     private int countFrames = 0;
     private float distToFloor = 0f;
+    private bool wasOnFloorPrevFrame = false;
 
     // Score
     int score = 0;
@@ -44,7 +47,7 @@ public class PlayerBehaviour : MonoBehaviour
     // Check if Player is Standing on a Floor
     bool IsOnFloor()
     {
-        RaycastHit2D raycastResult = Physics2D.Raycast(transform.position, -Vector2.up, distToFloor, LayerMask.GetMask("Floor"));
+        RaycastHit2D raycastResult = Physics2D.Raycast(floorDetectorTransform.position, -Vector2.up, distToFloor, LayerMask.GetMask("Floor", "Platform"));
         if (raycastResult.collider != null)
         {
             return true;
@@ -88,6 +91,7 @@ public class PlayerBehaviour : MonoBehaviour
 
             // Correct Death Position
             boxCollider.enabled = false;
+            rigidBody.gravityScale = 0f;
             rigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
             transform.position += new Vector3(0f, -0.40f);
 
@@ -112,7 +116,8 @@ public class PlayerBehaviour : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        distToFloor = boxCollider.bounds.extents.y + (boxCollider.bounds.extents.y * 0.1f);
+        //distToFloor = boxCollider.bounds.extents.y + (boxCollider.bounds.extents.y * 0.1f);
+        distToFloor = (boxCollider.bounds.extents.y * 0.1f);
 
         EventManager.GetInstance().TriggerEvent(GameEvents.UpdateHealth, new Dictionary<string, object>
         {
@@ -151,6 +156,11 @@ public class PlayerBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (health <= 0)
+        {
+            return;
+        }
+
         if (moveLeft)
         {
             // Physics
@@ -183,11 +193,16 @@ public class PlayerBehaviour : MonoBehaviour
         if (!alreadyJumping && shouldJump && isOnFloor)
         {
             shouldJump = false;
+
+            rigidBody.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+
             alreadyJumping = true;
         }
-        else if (alreadyJumping)
+        else if (alreadyJumping && isOnFloor)
         {
-            rigidBody.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+            //rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0f);
+
+            alreadyJumping = false;
 
             countFrames++;
             if (countFrames > ignoreJumpFrames - 1)
@@ -200,8 +215,15 @@ public class PlayerBehaviour : MonoBehaviour
         // Jumping: Graphics
         animator.SetBool("IsJumping", !isOnFloor);
 
+        // Check if Falling to Death
+        if (transform.position.y <= fallDeathHeight)
+        {
+            TakeDamage(health);
+        }
+
         // Apply Velocity
-        rigidBody.velocity = new Vector2(Mathf.Clamp(rigidBody.velocity.x, -speed, speed), rigidBody.velocity.y);
+        rigidBody.velocity = new Vector2(Mathf.Clamp(rigidBody.velocity.x, -speed, speed), 
+                                         Mathf.Clamp(rigidBody.velocity.y, -jumpForce, jumpForce));
     }
 
     void Update()
@@ -220,6 +242,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             Shoot();
         }
+
         animator.SetBool("IsShooting", canShoot);
     }
 

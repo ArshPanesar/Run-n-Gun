@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MultiSpinningBullet
   m_EditorClassIdentifier: 
   animationController: {fileID: 9100000, guid: 72a3cf397c0d6ad4585d1bc27122a063, type: 2}
-  damage: 1
+  damage: 11
   speed: 10
   numOfBulletsPerSpawn: 3
   cooldownTime: 0.3
