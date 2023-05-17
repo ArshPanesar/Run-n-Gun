@@ -77,7 +77,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 5.099411, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -88,7 +88,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 19.63556, y: 12.75861}
+  m_Size: {x: 29.834381, y: 12.75861}
   m_EdgeRadius: 0
 --- !u!114 &1626165648460636453
 MonoBehaviour:
@@ -275,11 +275,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b294a38e386da4984472876695314c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dGodMode: 1
+  dGodMode: 0
   dBulletPreset: {fileID: 11400000, guid: 9c4dfca78e081f548994c3aa64670580, type: 2}
   health: 100
   healthPickupValue: 50
-  fallDeathHeight: -5
+  fallDeathHeight: -6
+  takeEnemyCollisionDamage: 1
+  enemyCollisionDamage: 15
+  enemyCollisionDamageTimeout: 0.5
   speed: 8
   jumpForce: 15
   ignoreJumpFrames: 5
@@ -297,5 +300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 4542424756068400040, guid: fc688eb8d3d91c54dba1b2d09ceaf4ba, type: 3}
+  playSound: 1
+  soundName: Player Shoot
   spawnPosition: {x: 0, y: 0}
   lineOfShot: {x: 1, y: 0}

@@ -15,6 +15,11 @@ public class PlayerBehaviour : MonoBehaviour
     public int health = 100;
     public int healthPickupValue = 50;
     public float fallDeathHeight = -5;
+    
+    public bool takeEnemyCollisionDamage = true;
+    public int enemyCollisionDamage = 15;
+    public float enemyCollisionDamageTimeout = 0.5f;
+    private float enemyCollisionDamageTimer = 0.0f;
 
     // Movement
     public float speed = 1f;
@@ -171,6 +176,27 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        enemyCollisionDamageTimer += Time.deltaTime;
+        
+        Collider2D collider = collision.collider;
+        if (collider.gameObject.tag == "Enemy")
+        {
+            if (takeEnemyCollisionDamage)
+            {
+                TakeDamage(enemyCollisionDamage);
+
+                takeEnemyCollisionDamage = false;
+            }
+            else if (enemyCollisionDamageTimer > enemyCollisionDamageTimeout)
+            {
+                takeEnemyCollisionDamage = true;
+                enemyCollisionDamageTimer = 0.0f;
+            }
+        }
+    }
+
     void FixedUpdate()
     {
         if (health <= 0)
@@ -257,9 +283,9 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         // Take Input from User
-        moveLeft = Input.GetKey(KeyCode.A);
-        moveRight = Input.GetKey(KeyCode.D);
-        shouldJump = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space);
+        moveLeft = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow);
+        moveRight = Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow);
+        shouldJump = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow);
         canShoot = Input.GetKey(KeyCode.Return);
 
         if (canShoot)

@@ -47,11 +47,21 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void PlayerVisible(GameObject sourceObject)
     {
-        playerObject = sourceObject;
-        isPlayerVisible = true;
+        if (sourceObject.tag == "Player")
+        {
+            playerObject = sourceObject;
+            isPlayerVisible = true;
+        }
+    }
+    private void PlayerLeft(GameObject sourceObject)
+    {
+        if (sourceObject.tag == "Player")
+        {
+            isPlayerVisible = false;
+        }
     }
 
-    private void PlayerInvisible(Dictionary<string, object> args)
+    private void PlayerDead(Dictionary<string, object> args)
     {
         isPlayerVisible = false;
         animator.SetBool("PlayerDead", true);
@@ -89,6 +99,7 @@ public class EnemyBehaviour : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         visibilityNotifierTarget.delegateHandle += PlayerVisible;
+        visibilityNotifierTarget.exitDelegateHandle += PlayerLeft;
 
         // Check if in Group
         EnemyGroupBehaviour parentGroup = gameObject.GetComponentInParent<EnemyGroupBehaviour>();
@@ -97,12 +108,12 @@ public class EnemyBehaviour : MonoBehaviour
             parentGroup.SubscribeToNotification(PlayerVisible);
         }
 
-        EventManager.GetInstance().AddListener(GameEvents.PlayerDead, PlayerInvisible);
+        EventManager.GetInstance().AddListener(GameEvents.PlayerDead, PlayerDead);
     }
 
     private void OnDestroy()
     {
-        EventManager.GetInstance().RemoveListener(GameEvents.PlayerDead, PlayerInvisible);
+        EventManager.GetInstance().RemoveListener(GameEvents.PlayerDead, PlayerDead);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

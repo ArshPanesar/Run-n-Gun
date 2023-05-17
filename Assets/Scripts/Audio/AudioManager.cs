@@ -5,6 +5,8 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public Sound[] soundsList;
+    // Using a Dictionary at Run-Time for Faster Searching
+    private Dictionary<string, Sound> soundTable;
 
     public static AudioManager instance;
 
@@ -24,6 +26,8 @@ public class AudioManager : MonoBehaviour
         // Persist
         DontDestroyOnLoad(gameObject);
 
+        soundTable = new Dictionary<string, Sound>();
+
         // Attach an AudioSource to the Manager for every Sound
         foreach(var sound in soundsList)
         {
@@ -32,18 +36,17 @@ public class AudioManager : MonoBehaviour
             sound.source.clip = sound.clip;
             sound.source.volume = sound.volume;
             sound.source.loop = sound.loop;
+
+            soundTable.Add(sound.name, sound);
         }
     }
 
     private Sound FindSound(string soundName)
     {
         // Find the Sound if it exists
-        for (int i = 0; i < soundsList.Length; i++)
+        if (soundTable.ContainsKey(soundName))
         {
-            if (soundName.Equals(soundsList[i].name))
-            {
-                return soundsList[i];
-            }
+            return soundTable[soundName];
         }
 
         return null;
@@ -66,7 +69,6 @@ public class AudioManager : MonoBehaviour
 
         // Play the Sound
         sound.source.Play();
-
     }
 
     public void Stop(string soundName)

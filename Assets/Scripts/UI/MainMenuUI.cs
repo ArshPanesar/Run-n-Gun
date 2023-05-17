@@ -25,8 +25,13 @@ public class MainMenuUI : MonoBehaviour
 
     public void OnQuit()
     {
+#if (UNITY_WEBGL)
+        // For a WebGL Build, Go to an Empty Web Page
+        Application.ExternalEval("window.open('about:blank','_self')");
+        //Application.OpenURL("about:blank");
+#else
         Application.Quit();
-
+#endif
         // Stop Playing Music
         FindObjectOfType<AudioManager>().Stop("Main Menu Theme");
     }
