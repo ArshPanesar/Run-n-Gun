@@ -9,6 +9,8 @@ public static class GameEvents
     public static string DestroyBullet = "Destroy Bullet";
     public static string PlayerDead = "Player Dead";
     public static string UpdateHealth = "Update Health";
+    public static string Paused = "Paused";
+    public static string FinishLevel = "Finish Level";
 };
 
 public class EventManager

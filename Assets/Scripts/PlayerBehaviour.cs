@@ -137,11 +137,13 @@ public class PlayerBehaviour : MonoBehaviour
                 { "score", score }
             });
         }
+        // Enemy Bullet
         else if (collision.gameObject.layer == LayerMask.NameToLayer("EnemyBullet"))
         {
             BulletBehaviour bulletBehaviour = collision.gameObject.GetComponent<BulletBehaviour>();
             TakeDamage(bulletBehaviour.damage);
         }
+        // Health Pickup
         else if (collision.gameObject.tag == "HealthPickup")
         {
             Destroy(collision.gameObject);
@@ -150,6 +152,14 @@ public class PlayerBehaviour : MonoBehaviour
 
             EventManager.GetInstance().TriggerEvent(GameEvents.UpdateHealth, new Dictionary<string, object>{
                 { "health", health }
+            });
+        }
+        // Finish Flag
+        else if (collision.gameObject.tag == "Finish")
+        {
+            EventManager.GetInstance().TriggerEvent(GameEvents.FinishLevel, new Dictionary<string, object>
+            {
+                { "coins", score }
             });
         }
     }
@@ -233,11 +243,18 @@ public class PlayerBehaviour : MonoBehaviour
             return;
         }
 
+        // Pause the Game
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
+        {
+            EventManager.GetInstance().TriggerEvent(GameEvents.Paused, null);
+        }
+
+        // Take Input from User
         moveLeft = Input.GetKey(KeyCode.A);
         moveRight = Input.GetKey(KeyCode.D);
         shouldJump = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space);
         canShoot = Input.GetKey(KeyCode.Return);
-        
+
         if (canShoot)
         {
             Shoot();
