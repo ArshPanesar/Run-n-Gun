@@ -5,6 +5,10 @@ using UnityEngine;
 public class BulletSpawner : MonoBehaviour
 {
     public GameObject bulletPrefab;
+
+    public bool playSound = false;
+    public string soundName;
+    
     [HideInInspector] public Vector2 spawnPosition;
     [HideInInspector] public Vector2 lineOfShot;
 
@@ -42,6 +46,11 @@ public class BulletSpawner : MonoBehaviour
             Vector2 direction = angle * lineOfShot;
 
             bullet.SetBullet(preset.speed, direction, preset.damage, preset.animationController);
+        }
+
+        if (playSound)
+        {
+            FindObjectOfType<AudioManager>().Play(soundName);
         }
 
         cooldownTime = preset.cooldownTime;

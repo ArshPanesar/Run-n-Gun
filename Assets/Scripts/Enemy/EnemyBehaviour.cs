@@ -61,6 +61,9 @@ public class EnemyBehaviour : MonoBehaviour
     {
         health -= damage;
 
+        // Play Hit Sound
+        FindObjectOfType<AudioManager>().Play("Enemy Hit");
+
         if (health <= 0)
         {
             // Remove Collision
@@ -72,6 +75,9 @@ public class EnemyBehaviour : MonoBehaviour
             
             // Animate Death
             animator.SetBool("IsDead", true);
+
+            // Play Death Sound
+            FindObjectOfType<AudioManager>().Play("Enemy Death");
         }
     }
 

@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3818083517077550870
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3818083517077550868}
+  - component: {fileID: 3818083517077550871}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3818083517077550868
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3818083517077550870}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 33.713795, y: -0.5503899, z: 2.6216083}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3818083517077550871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3818083517077550870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94fdd43e7ef3e6d49811b0c8fc576630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundsList:
+  - name: Level 1 Background
+    volume: 0.3
+    loop: 1
+    clip: {fileID: 8300000, guid: d7a16c6738c80294cad2816949da8619, type: 3}
+    source: {fileID: 0}
+  - name: Main Menu Theme
+    volume: 0.3
+    loop: 1
+    clip: {fileID: 8300000, guid: 2efdbb022c28cad45bb7db8055c6bb69, type: 3}
+    source: {fileID: 0}
+  - name: Player Shoot
+    volume: 0.725
+    loop: 0
+    clip: {fileID: 8300000, guid: 6e5b96dc2fe4b8d4fb00c1915bcfcbb9, type: 3}
+    source: {fileID: 0}
+  - name: Default Enemy Shoot
+    volume: 0.5
+    loop: 0
+    clip: {fileID: 8300000, guid: 408daf34da56f4b48bd3d2c40b60324c, type: 3}
+    source: {fileID: 0}
+  - name: Multi Default Enemy Shoot
+    volume: 0.5
+    loop: 0
+    clip: {fileID: 8300000, guid: 5a3238762251a6e4f967fd05b4701e59, type: 3}
+    source: {fileID: 0}
+  - name: Player Death
+    volume: 0.5
+    loop: 0
+    clip: {fileID: 8300000, guid: b72d862813290a8448504ae6770252e2, type: 3}
+    source: {fileID: 0}
+  - name: Coin
+    volume: 0.5
+    loop: 0
+    clip: {fileID: 8300000, guid: 19deb89ffe45d3b4dbbe36332c3dbba1, type: 3}
+    source: {fileID: 0}
+  - name: Enemy Death
+    volume: 0.6
+    loop: 0
+    clip: {fileID: 8300000, guid: c30dd586800d1a7409276b3885447528, type: 3}
+    source: {fileID: 0}
+  - name: Player Hit
+    volume: 0.6
+    loop: 0
+    clip: {fileID: 8300000, guid: 2e4198d874e4e734abd0294aead7d1fa, type: 3}
+    source: {fileID: 0}
+  - name: Enemy Hit
+    volume: 0.6
+    loop: 0
+    clip: {fileID: 8300000, guid: 9d429d6d6786274439973201d60050e5, type: 3}
+    source: {fileID: 0}
+  - name: Health Pickup
+    volume: 0.6
+    loop: 0
+    clip: {fileID: 8300000, guid: 29f3e8a4168148b4bb3396e342176c5c, type: 3}
+    source: {fileID: 0}
+  - name: Finish Level
+    volume: 0.6
+    loop: 0
+    clip: {fileID: 8300000, guid: a322e4eceae23bf4f92a5e127d92f207, type: 3}
+    source: {fileID: 0}
+  - name: Pause
+    volume: 0.6
+    loop: 0
+    clip: {fileID: 8300000, guid: b52842f6746aa2047ac838163186814b, type: 3}
+    source: {fileID: 0}

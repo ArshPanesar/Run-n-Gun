@@ -29,6 +29,7 @@ public class GameOverUI : MonoBehaviour
     {
         // Reload Current Scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        FindObjectOfType<AudioManager>().Play("Level 1 Background");
 
         active = false;
         gameObject.SetActive(false);
@@ -37,5 +38,7 @@ public class GameOverUI : MonoBehaviour
     public void OnQuit()
     {
         SceneManager.LoadScene("Main Menu");
+
+        FindObjectOfType<AudioManager>().Stop("Level 1 Background");
     }
 }

@@ -31,6 +31,10 @@ public class WinUI : MonoBehaviour
 
         active = !active;
         gameObject.SetActive(active);
+
+        // Play Music
+        FindObjectOfType<AudioManager>().Stop("Level 1 Background");
+        FindObjectOfType<AudioManager>().Play("Finish Level");
     }
 
     public void OnNextLevel()
@@ -39,6 +43,9 @@ public class WinUI : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Time.timeScale = 1f;
 
+        FindObjectOfType<AudioManager>().Stop("Finish Level");
+        FindObjectOfType<AudioManager>().Play("Level 1 Background");
+
         active = false;
         gameObject.SetActive(false);
     }
@@ -46,6 +53,7 @@ public class WinUI : MonoBehaviour
     public void OnQuit()
     {
         Time.timeScale = 1f;
+
         SceneManager.LoadScene("Main Menu");
     }
 }

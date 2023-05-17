@@ -39,8 +39,7 @@ public class PlayerBehaviour : MonoBehaviour
     public Transform floorDetectorTransform;
     private int countFrames = 0;
     private float distToFloor = 0f;
-    private bool wasOnFloorPrevFrame = false;
-
+    
     // Score
     int score = 0;
 
@@ -85,6 +84,9 @@ public class PlayerBehaviour : MonoBehaviour
 
         health -= damage;
 
+        // Play Hit Sound
+        FindObjectOfType<AudioManager>().Play("Player Hit");
+
         if (health <= 0)
         {
             health = 0;
@@ -99,6 +101,9 @@ public class PlayerBehaviour : MonoBehaviour
 
             // Animate Death
             animator.SetBool("IsDead", true);
+
+            // Play Death Sound
+            FindObjectOfType<AudioManager>().Play("Player Death");
         }
 
         EventManager.GetInstance().TriggerEvent(GameEvents.UpdateHealth, new Dictionary<string, object>
@@ -149,6 +154,8 @@ public class PlayerBehaviour : MonoBehaviour
             Destroy(collision.gameObject);
 
             health += healthPickupValue;
+
+            FindObjectOfType<AudioManager>().Play("Health Pickup");
 
             EventManager.GetInstance().TriggerEvent(GameEvents.UpdateHealth, new Dictionary<string, object>{
                 { "health", health }
@@ -267,5 +274,8 @@ public class PlayerBehaviour : MonoBehaviour
     void IncrementScore()
     {
         score += 1;
+
+        // Play Sound
+        FindObjectOfType<AudioManager>().Play("Coin");
     }
 }

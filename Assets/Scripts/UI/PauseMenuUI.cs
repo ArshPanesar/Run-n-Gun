@@ -27,6 +27,9 @@ public class PauseMenuUI : MonoBehaviour
         if (active)
         {
             Time.timeScale = 0f;
+
+            // Play Music
+            FindObjectOfType<AudioManager>().Play("Pause");
         }
         else
         {
@@ -52,5 +55,7 @@ public class PauseMenuUI : MonoBehaviour
         Time.timeScale = 1f;
 
         SceneManager.LoadScene("Main Menu");
+        
+        FindObjectOfType<AudioManager>().Stop("Level 1 Background");
     }
 }
