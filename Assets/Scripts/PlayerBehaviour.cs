@@ -42,7 +42,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     // Jumping
     public Transform floorDetectorTransform;
-    private int countFrames = 0;
     private float distToFloor = 0f;
     
     // Score
@@ -126,8 +125,7 @@ public class PlayerBehaviour : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        //distToFloor = boxCollider.bounds.extents.y + (boxCollider.bounds.extents.y * 0.1f);
-        distToFloor = (boxCollider.bounds.extents.y * 0.1f);
+        distToFloor = (boxCollider.bounds.extents.y * 0.225f);
 
         EventManager.GetInstance().TriggerEvent(GameEvents.UpdateHealth, new Dictionary<string, object>
         {
@@ -241,18 +239,9 @@ public class PlayerBehaviour : MonoBehaviour
 
             alreadyJumping = true;
         }
-        else if (alreadyJumping && isOnFloor)
+        else if (isOnFloor)
         {
-            //rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0f);
-
             alreadyJumping = false;
-
-            countFrames++;
-            if (countFrames > ignoreJumpFrames - 1)
-            {
-                alreadyJumping = false;
-                countFrames = 0;
-            }
         }
 
         // Jumping: Graphics
