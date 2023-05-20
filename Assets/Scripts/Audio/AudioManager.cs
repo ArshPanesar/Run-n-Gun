@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+    public bool disable = false;
+
     public Sound[] soundsList;
     // Using a Dictionary at Run-Time for Faster Searching
     private Dictionary<string, Sound> soundTable;
@@ -25,7 +27,7 @@ public class AudioManager : MonoBehaviour
 
         // Persist
         DontDestroyOnLoad(gameObject);
-
+        
         soundTable = new Dictionary<string, Sound>();
 
         // Attach an AudioSource to the Manager for every Sound
@@ -38,6 +40,12 @@ public class AudioManager : MonoBehaviour
             sound.source.loop = sound.loop;
 
             soundTable.Add(sound.name, sound);
+
+            // Don't Play any Sounds
+            if (disable)
+            {
+                sound.source.volume = 0.0f;
+            }
         }
     }
 

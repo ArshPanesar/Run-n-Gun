@@ -14,13 +14,10 @@ public class MainMenuUI : MonoBehaviour
 
     public void OnPlay()
     {
-        SceneManager.LoadScene("Level 1");
+        FindObjectOfType<LevelLoader>().LoadNextLevel();
 
         // Stop Playing Music
         FindObjectOfType<AudioManager>().Stop("Main Menu Theme");
-
-        // Play First Level Music
-        FindObjectOfType<AudioManager>().Play("Level 1 Background");
     }
 
     public void OnQuit()
@@ -28,10 +25,10 @@ public class MainMenuUI : MonoBehaviour
 #if (UNITY_WEBGL)
         // For a WebGL Build, Go to an Empty Web Page
         Application.ExternalEval("window.open('about:blank','_self')");
-        //Application.OpenURL("about:blank");
 #else
         Application.Quit();
 #endif
+
         // Stop Playing Music
         FindObjectOfType<AudioManager>().Stop("Main Menu Theme");
     }

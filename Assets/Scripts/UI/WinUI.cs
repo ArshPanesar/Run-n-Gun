@@ -39,12 +39,13 @@ public class WinUI : MonoBehaviour
 
     public void OnNextLevel()
     {
-        // Reload Current Scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        // Get Ready for Next Level
         Time.timeScale = 1f;
 
         FindObjectOfType<AudioManager>().Stop("Finish Level");
-        FindObjectOfType<AudioManager>().Play("Level 1 Background");
+
+        // Load Next Level
+        FindObjectOfType<LevelLoader>().LoadNextLevel();
 
         active = false;
         gameObject.SetActive(false);
@@ -54,6 +55,6 @@ public class WinUI : MonoBehaviour
     {
         Time.timeScale = 1f;
 
-        SceneManager.LoadScene("Main Menu");
+        FindObjectOfType<LevelLoader>().LoadByName("Main Menu");
     }
 }
