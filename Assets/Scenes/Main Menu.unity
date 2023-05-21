@@ -708,8 +708,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 48, y: -161}
-  m_SizeDelta: {x: 576.8777, y: 120.2917}
+  m_AnchoredPosition: {x: 58.5532, y: -154}
+  m_SizeDelta: {x: 597.9841, y: 157.43}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &995570840
 MonoBehaviour:
@@ -749,7 +749,9 @@ MonoBehaviour:
     Jump  - W / Space / Up Arrow
 
     Shoot
-    - Enter'
+    - Enter
+
+    Upgrade Weapon - B'
 --- !u!222 &995570841
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1102,7 +1104,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3818083517077550868, guid: 8cd9835e9fc484349bf73a6fc1673a97, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3818083517077550868, guid: 8cd9835e9fc484349bf73a6fc1673a97, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1329,7 +1331,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 871452639785797700, guid: 5e373e67a9884ae4dad181bdfde330da, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 871452639785797700, guid: 5e373e67a9884ae4dad181bdfde330da, type: 3}
       propertyPath: m_LocalPosition.x

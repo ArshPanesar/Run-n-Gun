@@ -47,8 +47,11 @@ MonoBehaviour:
   currentLevel: 0
   levelList:
   - sceneName: Main Menu
-    backgroundMusicName: Main Menu Theme
+    playBackgroundMusic: 0
+    backgroundMusicName: 
   - sceneName: Level 1
+    playBackgroundMusic: 1
     backgroundMusicName: Level 1 Background
   - sceneName: Level 2
+    playBackgroundMusic: 1
     backgroundMusicName: Level 1 Background

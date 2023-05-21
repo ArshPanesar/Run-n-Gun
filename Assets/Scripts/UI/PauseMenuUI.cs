@@ -41,21 +41,18 @@ public class PauseMenuUI : MonoBehaviour
     {
         Time.timeScale = 1f;
 
+        EventManager.GetInstance().TriggerEvent(GameEvents.Unpaused, null);
+
         active = false;
         gameObject.SetActive(false);
-    }
-
-    public void OnUpgradeWeapon()
-    {
-
     }
 
     public void OnQuit()
     {
         Time.timeScale = 1f;
-
-        SceneManager.LoadScene("Main Menu");
         
         FindObjectOfType<AudioManager>().Stop("Level 1 Background");
+
+        FindObjectOfType<LevelLoader>().LoadByName("Main Menu");
     }
 }

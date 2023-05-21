@@ -13,19 +13,15 @@ MonoBehaviour:
   m_Name: MultiSliceBullet
   m_EditorClassIdentifier: 
   animationController: {fileID: 9100000, guid: e8bb400714c93594791612f0ae568d43, type: 2}
-  damage: 15
+  damage: 19
   speed: 16
-  numOfBulletsPerSpawn: 5
+  numOfBulletsPerSpawn: 3
   cooldownTime: 0.2
   spawnPointOffsets:
   - {x: 0, y: 0.3}
-  - {x: 0, y: 0.2}
   - {x: 0, y: 0}
-  - {x: 0, y: -0.2}
   - {x: 0, y: -0.3}
   angleOffsets:
-  - 20
-  - 10
-  - 0
-  - -10
   - -20
+  - 0
+  - 20

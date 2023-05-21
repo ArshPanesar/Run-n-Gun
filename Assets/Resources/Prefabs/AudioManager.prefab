@@ -111,3 +111,8 @@ MonoBehaviour:
     loop: 0
     clip: {fileID: 8300000, guid: b52842f6746aa2047ac838163186814b, type: 3}
     source: {fileID: 0}
+  - name: Upgrade Weapon
+    volume: 0.6
+    loop: 0
+    clip: {fileID: 8300000, guid: c936a3df8dfd6ba439ded77e22506f3f, type: 3}
+    source: {fileID: 0}

@@ -175,6 +175,7 @@ MonoBehaviour:
   bulletPreset: {fileID: 11400000, guid: dbb044e47496b9e4db29a029a2dd246f, type: 2}
   bulletSpawnOffset: {x: 0.78, y: 0.3}
   bulletUpSpawnOffset: {x: -0.02, y: 1.34}
+  initTime: 0
   activeShootTime: 0.1
   waitShootTime: 0.95
   maxAngleWithLeftShot: 60
@@ -193,6 +194,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 4542424756068400040, guid: fc688eb8d3d91c54dba1b2d09ceaf4ba, type: 3}
+  playSound: 1
+  soundName: Multi Default Enemy Shoot
   spawnPosition: {x: 0, y: 0}
   lineOfShot: {x: 0, y: 0}
 --- !u!114 &8599723310782141430
@@ -207,4 +210,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604a06abd987df84dbe7b7cc237de848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sourceObject: {fileID: 0}

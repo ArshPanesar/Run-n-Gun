@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 // Events For This Game
 public static class GameEvents
@@ -10,7 +9,11 @@ public static class GameEvents
     public static string PlayerDead = "Player Dead";
     public static string UpdateHealth = "Update Health";
     public static string Paused = "Paused";
+    public static string Unpaused = "Unpaused";
     public static string FinishLevel = "Finish Level";
+    public static string UpgradeWeaponMenu = "Upgrade Weapon Menu";
+    public static string CanUpgradeWeapon = "Can Upgrade Weapon";
+    public static string WeaponUpgraded = "Weapon Upgraded";
 };
 
 public class EventManager

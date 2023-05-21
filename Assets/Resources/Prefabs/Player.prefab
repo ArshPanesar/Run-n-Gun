@@ -77,7 +77,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 5.099411, y: 0}
+  m_Offset: {x: 4.842924, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -88,7 +88,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 29.834381, y: 12.75861}
+  m_Size: {x: 52.611256, y: 12.75861}
   m_EdgeRadius: 0
 --- !u!114 &1626165648460636453
 MonoBehaviour:
@@ -276,7 +276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dGodMode: 0
-  dBulletPreset: {fileID: 11400000, guid: 9c4dfca78e081f548994c3aa64670580, type: 2}
+  dBulletPreset: {fileID: 0}
   health: 100
   healthPickupValue: 50
   fallDeathHeight: -6
@@ -287,6 +287,14 @@ MonoBehaviour:
   jumpForce: 15
   ignoreJumpFrames: 5
   floorDetectorTransform: {fileID: 282002752}
+  bulletUpgradeList:
+  - bulletPreset: {fileID: 11400000, guid: 9c4dfca78e081f548994c3aa64670580, type: 2}
+    coinsRequired: 0
+  - bulletPreset: {fileID: 11400000, guid: b93b78276d797174ebf8eb66837962a3, type: 2}
+    coinsRequired: 15
+  - bulletPreset: {fileID: 11400000, guid: 0b172dbb355b76047925acfdf33e7aff, type: 2}
+    coinsRequired: 30
+  currentBulletUpgradeIndex: 0
 --- !u!114 &1626165649459516772
 MonoBehaviour:
   m_ObjectHideFlags: 0

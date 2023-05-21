@@ -17,6 +17,10 @@ public class CoinBehaviour : MonoBehaviour
     public void DestroyCollectedCoin(Dictionary<string, object> args)
     {
         GameObject coin = (GameObject)args["coin"];
-        Destroy(coin, 0.1f);
+
+        if (coin != null)
+        {
+            Destroy(coin, 0.1f);
+        }
     }
 }

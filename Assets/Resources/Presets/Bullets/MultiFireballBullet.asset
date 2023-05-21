@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MultiFireballBullet
   m_EditorClassIdentifier: 
   animationController: {fileID: 9100000, guid: d55465bc8454da146b52ca3340b651d9, type: 2}
-  damage: 21
+  damage: 27
   speed: 11
   numOfBulletsPerSpawn: 3
   cooldownTime: 0.3
@@ -22,6 +22,6 @@ MonoBehaviour:
   - {x: 0, y: 0}
   - {x: 0, y: -0.18}
   angleOffsets:
-  - 30
+  - 20
   - 0
-  - -30
+  - -20

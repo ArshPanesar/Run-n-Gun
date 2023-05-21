@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: EnergyBullet
   m_EditorClassIdentifier: 
   animationController: {fileID: 9100000, guid: b99cba18e9a7dcf4c8f4ba374af6fb58, type: 2}
-  damage: 18
+  damage: 7
   speed: 15
-  numOfBulletsPerSpawn: 1
-  cooldownTime: 0.28
+  numOfBulletsPerSpawn: 2
+  cooldownTime: 0.275
   spawnPointOffsets:
-  - {x: 0, y: 0}
+  - {x: 0, y: 0.25}
+  - {x: 0, y: -0.25}
   angleOffsets:
+  - 0
   - 0
