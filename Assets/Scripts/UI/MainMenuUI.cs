@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuUI : MonoBehaviour
 {
-    private void Awake()
+    private void Start()
     {
         FindObjectOfType<AudioManager>().Play("Main Menu Theme");
     }

@@ -28,6 +28,8 @@ public class WeaponUpgradeUI : MonoBehaviour
     private void Awake()
     {
         EventManager.GetInstance().AddListener(GameEvents.UpgradeWeaponMenu, OnUpgradeWeapon);
+        EventManager.GetInstance().AddListener(GameEvents.PlayerDead, Close);
+        EventManager.GetInstance().AddListener(GameEvents.FinishLevel, Close);
 
         gameObject.SetActive(false);
     }
@@ -35,6 +37,8 @@ public class WeaponUpgradeUI : MonoBehaviour
     private void OnDestroy()
     {
         EventManager.GetInstance().RemoveListener(GameEvents.UpgradeWeaponMenu, OnUpgradeWeapon);
+        EventManager.GetInstance().RemoveListener(GameEvents.PlayerDead, Close);
+        EventManager.GetInstance().RemoveListener(GameEvents.FinishLevel, Close);
     }
 
     void OnUpgradeWeapon(Dictionary<string, object> args)
@@ -68,6 +72,14 @@ public class WeaponUpgradeUI : MonoBehaviour
         {
             OnReset();
         }
+    }
+
+    void Close(Dictionary<string, object> args)
+    {
+        active = false;
+        gameObject.SetActive(false);
+
+        OnReset();
     }
 
     public void OnUpgrade()

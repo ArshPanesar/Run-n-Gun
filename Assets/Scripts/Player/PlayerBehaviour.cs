@@ -55,6 +55,7 @@ public class PlayerBehaviour : MonoBehaviour
     // UI
     private bool paused = false;
     private bool upgradingWeapon = false;
+    private bool levelFinished = false;
 
     public void UpgradeWeapon()
     {
@@ -217,6 +218,8 @@ public class PlayerBehaviour : MonoBehaviour
         // Finish Flag
         else if (collision.gameObject.tag == "Finish")
         {
+            levelFinished = true;
+
             EventManager.GetInstance().TriggerEvent(GameEvents.FinishLevel, new Dictionary<string, object>
             {
                 { "coins", score }
@@ -247,7 +250,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (health <= 0)
+        if (health <= 0 || levelFinished)
         {
             return;
         }
@@ -310,7 +313,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
-        if (health <= 0)
+        if (health <= 0 || levelFinished)
         {
             return;
         }
