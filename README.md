@@ -31,9 +31,10 @@ The Player:
 
 ### Coins
 
-Coins are the Score of the Game.
+Coins are the Score of the Game. They can be exchanged for Weapon Upgrades.
 - Collectible by Player.
 - Have a UI on the Top-Right Corner of the Screen.
+- Can be exchanged for Weapon Upgrades.
 
 ### Enemy
 
@@ -53,8 +54,21 @@ The game currently has different configuration of Enemies in terms of:
 - Health
 - Shooting Pattern
 
+### Weapon Upgrade
+
+The Player's Weapon can be Upgraded to Shoot Stronger Bullets. The Player has to Spend Coins to Buy Upgrades.
+- Use the **B** Button to Open the Upgrade Menu.
+- Click Upgrade to get a New Upgrade on the Weapon.
+- Coins will be deducted from Player if the Upgrade is Purchased.
+  - Total Coins collected that are shown at the end of a level are not affected by this deduction.
+  - If the Player does not have enough Coins, a Fail Message will be Displayed and No Coins will be Deducted.
+
+### Health Pickups
+
+Health Pickups increase the Player's Health when collected. 
+
 ### Level Progression
 
 Completion of Level (Getting to the End Flag) will make Player Complete a Level.
 
-If Player Dies, they restart from beginning of the level.
+If the Player Dies, they have to Restart from Beginning of the Level.
