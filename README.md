@@ -45,7 +45,7 @@ The Enemy:
 
 - Waits for the Player to be Visible.
 - Shoot the Player.
-- Have Different Shooting Patterns (Shooting Patterns are ).
+- Have Different Shooting Patterns.
 - Can Take Damage/Die from Player's Bullets.
 
 The game currently has different configuration of Enemies in terms of:
